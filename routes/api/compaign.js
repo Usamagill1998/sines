@@ -4,6 +4,18 @@ const express = require("express");
 const router = express.Router();
 const verifyToken = require("../../utils/verifyJwtToken");
 const jwt = require("jsonwebtoken");
+
+
+router.get("/all", async (req, res)=>{
+  Compaign.find({}, (err, area) =>{
+      if(err){
+          res.status(400).json(err)
+      }
+      res.json(area)
+  })
+})
+
+
 router.post("/create",  async (req, res) => {
   const { error } = validate(req.body);
   if (error) {

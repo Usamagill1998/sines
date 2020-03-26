@@ -21,14 +21,13 @@ router.post('/register', async (req, res) => {
     const { error } = validate(req.body);
     if (error) {
         return res.status(400).send(error.details[0].message);
-    }
+    } 
     let customer = await Customer.findOne({ phone: req.body.phone });
     if (customer) {
         return res.status(400).json({message: "That customer already exisits!"});
     } else {
         await Customer.create({
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
+            name: req.body.name,
             phone: req.body.phone
         },
         function (err, customer) {
@@ -40,8 +39,11 @@ router.post('/register', async (req, res) => {
           });
           return res.status(200).json({ auth: true, token: token, customer: customer });
         });
+
+
+        
     }
-});
+}); 
 
 router.post('/authenticated', verifyToken, (req, res) => {  
   jwt.verify(req.token, 'secretkey', (err, authData) => {

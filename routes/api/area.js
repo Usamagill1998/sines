@@ -7,6 +7,7 @@ const { Area, validate } = require('../../models/Area');
 router.get('/test', (req, res) => res.json('Hello from area API'))
 
 router.post('/add', async (req, res) => {
+  console.log(req.body)
     const { error } = validate(req.body);
     if (error) {
         return res.status(400).send(error.details[0].message);
