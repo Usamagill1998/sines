@@ -5,16 +5,44 @@ const router = express.Router();
 const verifyToken = require("../../utils/verifyJwtToken");
 const jwt = require("jsonwebtoken");
 
-
 router.get("/all", async (req, res)=>{
-  Compaign.find({}, (err, area) =>{
-      if(err){
-          res.status(400).json(err)
-      }
-      res.json(area)
-  })
+  
+   
+  Compaign.find({'area':'5e75c17511257413a09f0c58'}, (err, responce) =>{
+    if(err){
+        res.status(400).json(err)
+    }
+    res.json(responce)
+})
 })
 
+
+
+
+
+     
+
+  //const _id = req.params.id;
+
+  router.get("/alll", function(req,res) {
+    Compaign.
+  find({}).
+  populate().
+  exec(function (err, story) {
+    if (err) return handleError(err);
+    console.log('The author is',story);
+    // prints "The author is Ian Fleming"
+  });
+    
+    
+    
+ 
+  });
+  
+
+
+
+       
 
 router.post("/create",  async (req, res) => {
   const { error } = validate(req.body);
@@ -25,7 +53,7 @@ router.post("/create",  async (req, res) => {
   console.log("compaign", compaign);
   if (compaign) { 
     return res.status(400).send({ message: "That compaign already exisits!" });
-  } else {
+  } else { 
   //   return db.Product.findOneAndUpdate({ _id: req.params.id }, {$push: {reviews: dbReview._id}}, { new: true });
   // })
   // .then(function(dbProduct) {
@@ -41,12 +69,13 @@ router.post("/create",  async (req, res) => {
     price: req.body.price,
     url: req.body.url,
     //price: req.body.price,
-    // postedBy: req.customer.id,
+     postedBy:req.body.postedBy ,
     startDate: req.body.startDate,
     endDate: req.body.endDate,
-   area:"5e7b103abee8d30024b68e1a",
-    numberOfCars: req.body.numberOfCars
-   
+   area:req.body.area,
+    numberOfCars: req.body.numberOfCars,
+    CompaignName:req.body.numberOfCars,
+    timage:req.body.timage 
   });
 
   try {

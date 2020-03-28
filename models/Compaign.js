@@ -1,7 +1,17 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
- 
+   
 const Compaign = mongoose.model('Compaign', new mongoose.Schema({
+    CompaignName: {
+        type:String,
+        required: true
+      },
+    
+    timage: {
+        type: String,
+        required: true
+      },
+   
     price: {
       type: Number,
       required: true
@@ -21,16 +31,21 @@ const Compaign = mongoose.model('Compaign', new mongoose.Schema({
     endDate: {
         type: Date,
         required: true
-    },
+    },  
     area: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Area',
-        required:true
+        
+        //required:true
     },
     numberOfCars: {
         type: Number,
         required: true   
     },
+     
+
+
+
     // payment: {
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: 'Payment'
@@ -46,11 +61,16 @@ const Compaign = mongoose.model('Compaign', new mongoose.Schema({
  
 function validateCompaign(compaign) {
     const schema = {
+        CompaignName:Joi.string().required(),
+        timage:Joi.string().required(),
         price: Joi.number().required(),
         url: Joi.string().required(),
         startDate: Joi.date().required(),     
         endDate: Joi.string().required(),
-        numberOfCars: Joi.number().required()
+        numberOfCars: Joi.number().required(),
+        area:Joi.string().required(),
+        postedBy:Joi.string().required()
+
     };
     return Joi.validate(compaign, schema);
 }

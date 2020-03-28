@@ -8,7 +8,8 @@ const Area = mongoose.model('Area', new mongoose.Schema({
         minlength: 5,
         maxlength: 50
     },
-     polygon: [{
+
+       polygon: [{
         
         lat : String,
         lng : String

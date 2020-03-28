@@ -38,10 +38,10 @@ router.post('/register', async (req, res) => {
             expiresIn: '2h' 
           });
           return res.status(200).json({ auth: true, token: token, customer: customer });
-        });
+        });   
 
+                   
 
-        
     }
 }); 
 
@@ -79,7 +79,7 @@ router.get("/all", async (req, res)=>{
       }
       res.json(customer)
   })
-})
+})  
 
 router.get("/:id", async (req, res)=>{
   const _id = req.params.id;
