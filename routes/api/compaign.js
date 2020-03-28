@@ -7,8 +7,10 @@ const jwt = require("jsonwebtoken");
 
 router.get("/all", async (req, res)=>{
   
-   
-  Compaign.find({'area':'5e75c17511257413a09f0c58'}, (err, responce) =>{
+  var id= req.query.id
+
+  console.log(id)
+  Compaign.find({'postedBy':id}, (err, responce) =>{
     if(err){
         res.status(400).json(err)
     }
