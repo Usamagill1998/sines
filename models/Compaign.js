@@ -25,11 +25,11 @@ const Compaign = mongoose.model('Compaign', new mongoose.Schema({
         ref: 'Customer'
     },
     startDate: {
-        type: Date,
+        type:String,
         required: true
     },
     endDate: {
-        type: Date,
+        type:String,
         required: true
     },  
     area: {
@@ -65,7 +65,7 @@ function validateCompaign(compaign) {
         timage:Joi.string().required(),
         price: Joi.number().required(),
         url: Joi.string().required(),
-        startDate: Joi.date().required(),     
+        startDate: Joi.string().required(),     
         endDate: Joi.string().required(),
         numberOfCars: Joi.number().required(),
         area:Joi.string().required(),
