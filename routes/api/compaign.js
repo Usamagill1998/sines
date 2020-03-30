@@ -76,7 +76,7 @@ router.post("/create",  async (req, res) => {
     endDate: req.body.endDate,
    area:req.body.area,
     numberOfCars: req.body.numberOfCars,
-    CompaignName:req.body.numberOfCars,
+    CompaignName:req.body.CompaignName,
     timage:req.body.timage 
   });
 
