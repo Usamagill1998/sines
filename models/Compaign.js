@@ -46,17 +46,6 @@ const Compaign = mongoose.model('Compaign', new mongoose.Schema({
 
 
 
-    // payment: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Payment'
-    // },
-
-    // notification: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Notification'
-    // },
-    
-    // timestamps: true
 }));
  
 function validateCompaign(compaign) {

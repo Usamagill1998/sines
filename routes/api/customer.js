@@ -17,7 +17,7 @@ router.get('/current', verifyToken, (req, res) => {
   });
 }); 
 
-router.post('/register', async (req, res) => {
+router.post('/register',verifyToken, async (req, res) => {
     const { error } = validate(req.body);
     if (error) {
         return res.status(400).send(error.details[0].message);

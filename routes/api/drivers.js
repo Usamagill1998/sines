@@ -1,4 +1,4 @@
-const { Driver, validate } = require('../../models/Driver');
+const { Drivers, validate } = require('../../models/Drivers');
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const verifyToken = require('../../utils/verifyJwtToken')
@@ -10,38 +10,40 @@ router.get('/current', verifyToken, (req, res) => {
       res.sendStatus(403);
     } else {
       res.json({
-        message: 'current driver',
-        driver: authData
+        message: 'current customer',
+        customer: authData
       });
     }
   });
 }); 
 
-router.post('/register', async (req, res) => {
+router.post('/register',verifyToken, async (req, res) => {
     const { error } = validate(req.body);
     if (error) {
         return res.status(400).send(error.details[0].message);
-    }
-    let driver = await Driver.findOne({ phone: req.body.phone });
+    } 
+    let driver = await Drivers.findOne({ phone: req.body.phone });
     if (driver) {
         return res.status(400).json({message: "That driver already exisits!"});
     } else {
-        await Driver.create({
-            fullname: req.body.fullname,
-            email: req.body.email,
+        await Drivers.create({
+            name: req.body.name,
             phone: req.body.phone
         },
         function (err, driver) {
           if (err){
-            return res.status(500).json({message: "There was a problem registering the driver."})
+            return res.status(500).json({message: "There was a problem registering the customer."})
           } 
-          const token = jwt.sign({ id: driver._id }, "secretkey", {
+          const token = jwt.sign({ id:driver._id }, "secretkey", {
             expiresIn: '2h' 
           });
           return res.status(200).json({ auth: true, token: token, driver: driver });
-        });
+        });   
+
+                   
+
     }
-});
+}); 
 
 router.post('/authenticated', verifyToken, (req, res) => {  
   jwt.verify(req.token, 'secretkey', (err, authData) => {
@@ -53,42 +55,45 @@ router.post('/authenticated', verifyToken, (req, res) => {
         driver: authData
       });
     }
-  });
+  });   
 });
+
+
+
 
 router.post("/login", async (req, res) =>{
 
-    let driver = await Driver.findOne({phone:req.body.phone})
-    if(!driver) {
-        return res.status(404).json({message: "That driver not exisits!"})
+    let customer = await Customer.findOne({phone:req.body.phone})
+    if(!customer) {
+        return res.status(404).json({message: "That customer not exisits!"})
     }else{
-        const token = jwt.sign({ id: driver._id }, "secretkey", {
+        const token = jwt.sign({ id: customer._id }, "secretkey", {
           expiresIn: '2h' 
         });
-        return res.status(200).json({ auth: true, token: token, driver: driver });
+        return res.status(200).json({ auth: true, token: token, customer: customer });
     }
 
 })
 
 router.get("/all", async (req, res)=>{
-  Driver.find({}, (err, driver) =>{
+  Customer.find({}, (err, customer) =>{
       if(err){
           res.status(400).json(err)
       }
-      res.json(driver)
+      res.json(customer)
   })
-})
+})  
 
 router.get("/:id", async (req, res)=>{
   const _id = req.params.id;
-  Driver.findOne({ _id }, (err, driver) => {
+  Customer.findOne({ _id }, (err, customer) => {
       if (err) {
         res.status(400).json(err);
       }
-      if (!driver) {
-        res.status(404).json({ message: `Driver with ID ${_id} not found.` });
+      if (!customer) {
+        res.status(404).json({ message: `Customer with ID ${_id} not found.` });
       }
-      res.json(driver);
+      res.json(customer);
     });
 })
 
@@ -98,15 +103,15 @@ router.put('/:id', verifyToken, async (req, res) => {
     if(err) {
       res.sendStatus(403);
     } else {
-      Driver.findOneAndUpdate({ _id },
+      Customer.findOneAndUpdate({ _id },
         req.body,
         { new: true },
         (err) => {
         if (err) {
-          res.status(404).json({ message: 'driver with given id not found.' });
+          res.status(404).json({ message: 'customer with given id not found.' });
         }
         res.json({
-          message: 'driver updated',
+          message: 'customer updated',
           driver: authData
         });      
       });
@@ -120,15 +125,15 @@ router.delete("/trash/:id", verifyToken, async (req, res) =>{
     if(err) {
       res.sendStatus(403);
     } else {
-      Driver.findOneAndRemove({ _id }, (err, driver) => {
+      Customer.findOneAndRemove({ _id }, (err, customer) => {
         if (err) {
           res.status(400).json(err);
         }
-        if (!driver) {
-          res.status(404).json({ message: 'driver with given id not found.' });
+        if (!customer) {
+          res.status(404).json({ message: 'customer with given id not found.' });
         }
         res.json({
-          message: `driver with ID ${ _id } deleted`,
+          message: `customer with ID ${ _id } deleted`,
           driver: authData
         });
       });

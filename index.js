@@ -6,6 +6,7 @@ const customer = require("./routes/api/customer");
 const area = require("./routes/api/area");
 const compaign = require("./routes/api/compaign");
 const video = require("./routes/api/video");
+const drivers = require("./routes/api/drivers");
 var busboyBodyParser = require("busboy-body-parser");
 
 const express = require("express");
@@ -23,6 +24,8 @@ app.use("/api/customer", customer);
 app.use("/api/area", area);
 app.use("/api/compaign", compaign);
 app.use("/api/video", video);
+app.use("/api/drivers",drivers);
+
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

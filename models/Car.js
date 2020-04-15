@@ -2,6 +2,19 @@ const Joi = require('joi');
 const mongoose = require('mongoose');
  
 const Car = mongoose.model('Car', new mongoose.Schema({
+    registration: {
+        type: String,
+        required: true,
+        minlength: 5,
+        maxlength: 50
+    },
+    color: {
+        type: String,
+        required: true,
+        minlength: 5,
+        maxlength: 50
+    },
+   
     make: {
         type: String,
         required: true,
@@ -20,12 +33,27 @@ const Car = mongoose.model('Car', new mongoose.Schema({
         minlength: 4,
         maxlength: 4
     },
-    number: {
-        type: Number,
+   
+
+    make: {
+        type: String,
         required: true,
-        minlength: 4,
-        maxlength: 4
+        minlength: 5,
+        maxlength: 50
     },
+    drive_for: {
+        type: String,
+        required: true,
+        minlength: 5,
+        maxlength: 50
+    },
+    city_of_drive: {
+        type: String,
+        required: true,
+        minlength: 5,
+        maxlength: 50
+    },
+
     driver: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Driver'
